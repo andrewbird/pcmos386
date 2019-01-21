@@ -10,16 +10,10 @@ set INCLUDE=..\..\..\include;..\include
 set LIB=..\..\..\lib;..\libs
 
 REM ====== The Kernel =====
-cd kernel
-del $$mos.sys
-
-REM make -f kernel.mak $$eval.sys
-REM ren $$eval.sys $$mos.sys
-
-REM this was for internal R & D use only.
-make -f kernel.mak $$mos.sys
-
-cd ..
+REM this now builds both kernels, choose as appropriate
+REM $$eval.sys : serial number locked production version (rename to $$mos.sys)
+REM $$mos.sys  : unlocked version previously only for R & D
+gmake -C kernel all
 REM =======================
 
 cd mos5src
