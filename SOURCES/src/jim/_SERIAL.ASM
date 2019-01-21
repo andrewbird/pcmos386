@@ -137,7 +137,7 @@ false	equ	1 eq 0
 DUMPIT  equ     true                    ; display config on boot up
 
 	include options.inc
-	include	_serial.def		; get the module definitions
+%	include	SERIALDEF		; get the module definitions
 	endif
 
 	include _serial.pub
@@ -1892,4 +1892,3 @@ last	db	0
 code	ends
 	end
 
-
