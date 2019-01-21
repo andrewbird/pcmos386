@@ -1,9 +1,5 @@
 	include page.inc
 
-	include shgraph.inc		; to define conditional assembly of
-					; pcterm, emulink, at&t or sherwood
-					; driver.
-
 IFDEF PCTERM
 	title	pcterm.sys (v5.01) - mos pc shadow terminal driver module
 ENDIF
@@ -3120,4 +3116,3 @@ ENDIF
 
 _text	ends
 	end
-
