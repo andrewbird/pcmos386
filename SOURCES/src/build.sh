@@ -5,6 +5,15 @@ if [ -z "$REV" ] || [ "$REV" -lt 3684 ]; then
     exit 1
 fi
 
+# ensure we are in right place
+cd "$(dirname "$0")"
+
+# ensure the batchfile is present
+if [ ! -f ./MAKEMOS.BAT ] ; then
+    echo "The DOS batchfile MAKEMOS.BAT was not found in $(pwd)"
+    exit 2
+fi
+
 # need to remove uppercase *.SYS files as dosemu will create the
 # lowercase ones, they may collide
 rm -f kernel/*.SYS
