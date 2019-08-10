@@ -1,0 +1,87 @@
+all : $$19term.sys $$31term.sys $$3aterm.sys $$52term.sys $$anterm.sys \
+      $$a1term.sys $$avterm.sys $$ttterm.sys $$exterm.sys $$tvterm.sys \
+      $$t1term.sys \
+      $$atterm.sys $$elterm.sys $$pcterm.sys $$swterm.sys $$w7term.sys \
+      $$trterm.sys \
+      $$srterm.sys $$view.sys $$vgna.sys $$vna.sys \
+      $$wy99gt.sys #$$unterm.sys
+
+$$%term.sys : %def.inc moxddtgn.asm page.inc macros.inc
+	public moxddtgn
+	masm /DTERMDEF=$< moxddtgn,$(@:.sys=.obj) \;
+	del moxddtgn.pub
+	link $(@:.sys=.obj) \;
+	del $(@:.sys=.obj)
+	exe2bin $(@:.sys=.exe) $@
+	del $(@:.sys=.exe)
+
+define MOSDDTSH_template =
+ public $(1).asm
+ masm /D$(3)=0 $(1).asm, $(2).obj \;
+ del $(1).pub
+ link $(2) \;
+ del $(2).obj
+ exe2bin $(2).exe $(2).sys
+ del $(2).exe
+endef
+
+$$atterm.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,ATT)
+
+$$elterm.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,EMULINK)
+
+$$pcterm.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,PCTERM)
+
+$$swterm.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,SHERWOOD)
+
+$$w7term.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,W7TERM)
+
+$$trterm.sys : mosddtsh.asm page.inc
+	$(call MOSDDTSH_template,$(<:.asm=),$*,TRTERM)
+
+define SIMPLESYS_template =
+ public $(1).asm
+ masm $(1).asm, $(2).obj \;
+ del $(1).pub
+ link $(2) \;
+ del $(2).obj
+ exe2bin $(2).exe $(2).sys
+ del $(2).exe
+endef
+
+$$srterm.sys : srterm.asm srterm.def page.inc options.inc mosregs.inc \
+               mostcb.inc mosscbdf.inc jmpmacro.inc suniomac.inc \
+               int14.inc isrsub.inc vidchk.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+$$view.sys :   view.asm page.inc mostcb.inc mosscbdf.inc  \
+               vptiomac.inc jmpmacro.inc int14.inc isrsub.inc \
+               macros.inc vidchk.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+$$unterm.sys : unterm.asm page.inc mostcb.inc mosscbdf.inc  \
+               seriomac.inc jmpmacro.inc int14.inc  isrsub.inc \
+               macros.inc vidchk.inc biosload.inc biosres.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+$$vgna.sys :   vgna.asm page.inc mostcb.inc mosscbdf.inc  \
+               seriomac.inc jmpmacro.inc int14.inc isrsub.inc \
+               vidchk.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+$$vna.sys :    ddtvna.asm page.inc mostcb.inc mosscbdf.inc  \
+               seriomac.inc  macros.inc  int14.inc  isrsub.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+$$wy99gt.sys : ddtw99gt.asm page.inc
+	$(call SIMPLESYS_template,$(<:.asm=),$*)
+
+clean:
+	echo no clean defined
+
+.PHONY: all clean
+.SUFFIXES: .sys .asm .obj

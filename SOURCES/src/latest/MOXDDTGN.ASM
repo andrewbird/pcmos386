@@ -204,7 +204,7 @@ state	db	?			; next state
 nxttab	dw	?			; next table to search or keystroke to send
 keymtch ends
 
-include termdef.inc
+% include TERMDEF
 
 compat	ends
 
@@ -3284,4 +3284,3 @@ inits2	db	" terminal device driver installed",0ah,0dh,"$"  ;@@xlat
 
 ddt	ends
 	end
-

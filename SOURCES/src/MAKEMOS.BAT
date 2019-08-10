@@ -22,6 +22,10 @@ if ERRORLEVEL 1 goto fail
 
 :here
 
+REM ======  Building Terminals ======
+gmake -C latest -f maketerm.gmk clean all
+if ERRORLEVEL 1 goto fail
+
 :done
 del fail.txt
 exit 0

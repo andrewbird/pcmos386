@@ -39,132 +39,108 @@ all:	19term.sys  31term.sys  3aterm.sys  52term.sys  anterm.sys \
 
 
 19term.sys:	moxddtgn.asm  page.inc  macros.inc  19def.inc
-        copy 19def.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=19def.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 31term.sys:	moxddtgn.asm  page.inc  macros.inc  31def.inc
-        copy 31def.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=31def.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 3aterm.sys:	moxddtgn.asm  page.inc  macros.inc  3adef.inc
-        copy 3adef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=3adef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
         
 52term.sys:	moxddtgn.asm  page.inc  macros.inc  52def.inc
-        copy 52def.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=52def.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 a1term.sys:	moxddtgn.asm  page.inc  macros.inc  a1def.inc
-        copy a1def.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=a1def.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 anterm.sys:	moxddtgn.asm  page.inc  macros.inc  andef.inc
-        copy andef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=andef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 atterm.sys:	mosddtsh.asm page.inc
-        echo ATT equ 0 >shgraph.inc
         public mosddtsh
-        masm mosddtsh,$*;
+        masm /DATT=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 avterm.sys:	moxddtgn.asm  page.inc  macros.inc  avdef.inc
-        copy avdef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=avdef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 elterm.sys:	mosddtsh.asm page.inc
-        echo EMULINK equ 0 >shgraph.inc
         public mosddtsh
-        masm mosddtsh,$*;
+        masm /DEMULINK=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 exterm.sys:	moxddtgn.asm  page.inc macros.inc  exdef.inc
-        copy exdef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=exdef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 pcterm.sys:	mosddtsh.asm  page.inc
-        echo PCTERM equ 0 >shgraph.inc
         public mosddtsh
-		masm mosddtsh,$*;
+	masm /DPCTERM=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 swterm.sys:	mosddtsh.asm  page.inc
-        echo SHERWOOD equ 0 >shgraph.inc
         public mosddtsh
-		masm mosddtsh,$*;
+	masm /DSHERWOOD=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
@@ -182,44 +158,36 @@ srterm.sys :	srterm.asm  srterm.def  page.inc  options.inc  mosregs.inc \
 		del srterm.exe
 
 t1term.sys:	moxddtgn.asm  page.inc  macros.inc  t1def.inc
-        copy t1def.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=t1def.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 trterm.sys:	mosddtsh.asm  page.inc
-        echo TRTERM equ 0 >shgraph.inc
         public mosddtsh
-		masm mosddtsh,$*;
+	masm /DTRTERM=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 ttterm.sys:	moxddtgn.asm  page.inc  macros.inc  ttdef.inc
-        copy ttdef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=ttdef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
         del $*.exe
 
 tvterm.sys:	moxddtgn.asm  page.inc  macros.inc  tvdef.inc
-        copy tvdef.inc termdef.inc
         public moxddtgn
-        masm moxddtgn,$*;
+        masm /DTERMDEF=tvdef.inc moxddtgn,$*;
         del moxddtgn.pub
-        del termdef.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
@@ -248,11 +216,9 @@ unterm.sys:	unterm.asm  page.inc  mostcb.inc  mosscbdf.inc  \
 		del unterm.exe
 
 v4term.sys:	mosddtsh.asm  page.inc
-        echo VT420 equ 0 >shgraph.inc
         public mosddtsh
-		masm mosddtsh,$*;
+	masm /DVT420=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
@@ -290,11 +256,9 @@ wy99gt.sys:	ddtw99gt.asm  page.inc
         del $*.exe
 
 w7term.sys:	mosddtsh.asm  page.inc
-        echo W7TERM equ 0 >shgraph.inc
         public mosddtsh
-		masm mosddtsh,$*;
+	masm /DW7TERM=0 mosddtsh,$*;
         del mosddtsh.pub
-        del shgraph.inc
         link $*;
         del $*.obj
         exe2bin $* $*.sys
