@@ -6,6 +6,11 @@ if not exist %TMP% mkdir %TMP%
 set INCLUDE=..\..\..\include;..\include
 set LIB=..\..\..\lib;..\libs
 
+
+REM ====== Generate serial number and registration script
+gmake -C latest -f makeser.gmk clean all
+if ERRORLEVEL 1 goto fail
+
 REM ====== The Kernel =====
 gmake -C latest -f kernel.gmk clean all
 if ERRORLEVEL 1 goto fail

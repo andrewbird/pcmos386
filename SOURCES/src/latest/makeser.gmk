@@ -1,0 +1,35 @@
+###############################################################################
+#
+#       MAKEFILE FOR:           PC-MOS Serial generation and registration
+#
+###############################################################################
+#
+# Default rules for this makefile.
+#
+
+all:    regist.bat snreg.com
+
+%.obj : %.asm
+	masm $<,$@,,,\;
+
+%.com : %.obj
+	link /m /se:512 $<, $*.exe, $*.map\;
+	exe2bin $*.exe $@
+
+%.exe : %.c
+	cl $<
+
+#
+#  Utility programs written in C.
+#
+regist.bat: sngen.exe
+	$<
+
+snreg.com: snreg.asm
+
+clean:
+	-del regist.bat
+	-del snreg.com
+	-del sngen.exe
+
+.PHONY: all clean
