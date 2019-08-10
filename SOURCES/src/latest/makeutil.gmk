@@ -1,0 +1,229 @@
+%.pub : %.asm
+	public $<
+
+%.pub : %.inc
+	public $<
+
+%.obj : %.asm %.pub
+	masm $<,$@,,,\;
+
+%.exe : %.obj
+	link /m /se:512 $<, $@, $*.map \;
+
+%.sys : %.exe
+	exe2bin $< $@
+
+%.com : %.exe
+	exe2bin $< $@
+
+# vars for substitution
+plus:= +
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+
+PGMS := adddev.com addtask.com dirmap.com alias.com class.com debug.com \
+        dirmap.com diskcopy.com diskid.com filemode.com \
+        format.com hdsetup.com keymap.com monitor.com serinfo.com \
+        more.com mos.com mosadm.com mosdd7f.sys msys.com \
+        netname.com print.com remdev.com remtask.com search.com \
+        setmouse.com spool.com verify.exe init.com filter.com patchid.com \
+        mispeed.com compfile.exe helpgen.exe
+
+DVRS := $$286n.sys $$386.sys $$all.sys $$charge.sys $$ems.sys $$gizmo.sys \
+        $$mouse.sys $$netbios.sys $$pipe.sys $$ramdisk.sys $$arnet.sys \
+        $$serial.sys minbrdpc.sys
+
+KBDS := $$kbbe.sys $$kbcf.sys $$kbdk.sys $$kbfr.sys $$kbgr.sys $$kbit.sys \
+        $$kbla.sys $$kbnl.sys $$kbno.sys $$kbpo.sys $$kbsf.sys $$kbsg.sys \
+        $$kbsp.sys $$kbsv.sys $$kbuk.sys
+
+all : $(PGMS) $(DVRS) $(KBDS) $$$$shell.sys command.com
+
+############ General purpose progs #############
+
+verschk.inc : version.inc
+
+moxutil.obj : moxutil.asm moxutl.inc
+
+adddev.obj : adddev.asm adddev.pub options.inc macros.inc version.inc
+
+addtask.obj : addtask.asm addtask.pub options.inc mostcb.inc mosscbdf.inc \
+              version.inc macros.inc
+
+alias.obj : alias.asm alias.pub page.inc moxutl.inc version.inc
+
+alias.exe : alias.obj moxutil.obj
+	link $(subst $(space),$(plus),$(^:.obj=)) \;
+
+class.obj : class.asm class.pub page.inc mostcb.inc mosscbdf.inc options.inc \
+	    version.inc
+
+#******************************************************************************
+#       MOS Debugger.
+#******************************************************************************
+DEBUGOBJS = debug.obj debugman.obj debugcon.obj debugext.obj \
+            debugtra.obj debugsup.obj debugend.obj
+
+debug.exe: $(DEBUGOBJS)
+	link $(subst $(space),$(plus),$(^:.obj=)) \;
+
+debug.obj:      debug.asm page.inc options.inc mostcb.inc mostcb.pub version.inc
+
+debugman.obj:   debugman.asm page.inc debugmac.inc
+
+debugtra.obj:   debugtra.asm page.inc debugmac.inc
+
+#******************************************************************************
+
+dirmap.obj:     dirmap.asm version.inc page.inc options.inc
+
+diskcopy.obj:   diskcopy.asm page.inc copyrit.inc verschk.inc
+
+diskid.obj:     diskid.asm page.inc verschk.inc
+
+filemode.obj:   filemode.asm page.inc version.inc
+
+format.obj:     format.asm page.inc options.inc mboot.pub dskstruc.inc \
+                mboot.inc macros.inc fmcommon.inc
+
+hdsetup.obj:    hdsetup.asm page.inc mbrdef.inc mbr.inc
+
+monitor.obj:    monitor.asm page.inc options.inc mostfb.inc mosscbdf.inc \
+                mostcb.inc version.inc
+
+more.obj:       more.asm page.inc version.inc
+
+mos.obj:        mos.asm mostcb.inc mosscbdf.inc mostfb.inc options.inc \
+                genmouse.inc version.inc moxmos.inc macros.inc
+
+mosadm.obj:     mosadm.asm page.inc mostcb.inc mosscbdf.inc mostfb.inc \
+                options.inc genmouse.inc version.inc moxmos.inc
+
+mosdd7f.obj:    mosdd7f.asm options.inc
+
+moxcptsk.obj : moxcptsk.asm page.inc mosscbdf.inc
+
+command.com : moxcptsk.exe
+	exe2bin $< $@
+
+msys.obj:       msys.asm page.inc mboot.inc dskstruc.inc macros.inc fmcommon.inc
+
+netname.obj:    netname.asm page.inc version.inc
+
+patchid.obj:    patchid.asm patchid.pub page.inc macros.inc
+
+_osmos.def: 	ismos.def
+	copy $< $@
+
+print.obj: print.pub _osmos.def page.inc options.inc copyrit.inc
+
+remdev.obj:     remdev.asm remdev.pub page.inc options.inc
+
+remtask.obj:	remtask.asm remtask.pub mostcb.inc mostcb.pub mosscbdf.inc \
+		moxutl.inc version.inc
+
+moxutil.obj:	moxutil.asm moxutl.inc
+
+remtask.exe:    remtask.obj moxutil.obj
+	link $(subst $(space),$(plus),$(^:.obj=)) \;
+
+search.obj : search.asm search.pub page.inc version.inc
+
+spool.obj : spool.asm page.inc options.inc mostcb.inc copyrit.inc verschk.inc
+
+verify.obj : verify.asm verify.pub page.inc options.inc macros.inc dskstruc.inc
+
+# Keyboards
+$$k%.sys : mosk%.asm page.inc moskbfor.inc moskbinz.inc
+	masm $<, $(@:.sys=.obj) \;
+	link $(@:.sys=.obj) \;
+	del $(@:.sys=.obj)
+	exe2bin $(@:.sys=.exe) $@
+	del $(@:.sys=.exe)
+
+# Drivers
+$$286n.sys : _286n.exe
+
+$$386.sys : _386.exe
+
+_all.obj : _all.asm moxmem.inc
+$$all.sys : _all.exe
+
+_charge.obj : _charge.asm moxmem.inc
+$$charge.sys : _charge.exe
+
+_ems.obj : _ems.asm _ems.pub
+$$ems.sys : _ems.exe
+
+_gizmo.obj : _gizmo.asm moxmem.inc
+$$gizmo.sys : _gizmo.exe
+
+_mouse.obj : _mouse.asm _mouse.pub options.inc mosregs.inc xifmacs.inc \
+              mostcb.inc mosscbdf.inc genmouse.inc
+$$mouse.sys : _mouse.exe
+
+_netbios.obj : _netbios.asm _netbios.pub options.inc mostcb.inc mosscbdf.inc
+$$netbios.sys : _netbios.exe
+
+_pipe.obj : _pipe.asm _pipe.pub mosscbdf.inc options.inc devreqh.inc
+$$pipe.sys : _pipe.exe
+
+$$ramdisk.sys : _ramdisk.exe
+
+_arnet.obj : _arnet.asm _arnet.pub options.inc jmpmacro.inc
+$$arnet.sys : _arnet.exe
+
+_serial.def: serial.def
+	copy $< $@
+_serial.obj : _serial.asm _serial.pub options.inc _serial.def \
+	jmpmacro.inc seriomac.inc int14.inc isrsub.inc pilds.inc llrec.inc
+$$serial.sys : _serial.exe
+
+#******************************************************************************
+#       MOS Command processor - $$shell.sys
+#******************************************************************************
+
+$$$$shell.sys : moxcpcor.exe
+
+moxcpcor.exe : moxcpcor.obj moxcpint.obj moxcppls.obj moxcpsub.obj
+	link $(subst $(space),$(plus),$(^:.obj=)) \;
+
+moxcpcor.obj : moxcpcor.asm moxcpcor.pub moxcpdat.inc moxcpdat.pub \
+	mostcb.inc moxcpsxt.inc mosscbex.inc options.inc version.inc
+	del moxcpcor.org
+	ren moxcpcor.pub moxcpcor.org
+	copy moxcpcor.org+moxcpdat.pub moxcpcor.pub
+	masm moxcpcor \;
+
+moxcpsub.obj : moxcpsub.asm page.inc moxcpdat.inc mosscbex.inc mostcb.inc
+
+moxcpint.obj : moxcpint.asm moxcpdat.inc moxcpsxt.inc
+
+moxcppls.obj : moxcppls.asm page.inc moxcpdat.inc mosscbdf.inc moxcpsxt.inc
+
+#
+#  Utility programs written in C.  (And Pascal, temporarily)
+#
+compfile.exe: compfile.c
+	cl -c $<
+	link $(<:.c=)/e,,,rsasmall
+	del $(@:.exe=.obj)
+	del $(@:.exe=.map)
+
+helpgen.exe: helpgen.c
+	cl -c $<
+	link $(<:.c=)/e,,,rsasmall
+	del $(@:.exe=.obj)
+	del $(@:.exe=.map)
+
+help.exe: help.pas help.inc
+	tpc help
+
+clean:
+	-del $$$$shell.sys
+	-del command.com
+
+.PHONY: all clean
+.INTERMEDIATE: $(DEBUGOBJS)
+.SUFFIX: .asm .obj .exe .com .sys .pub
