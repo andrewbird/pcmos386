@@ -40,3 +40,10 @@ cd ..
 rem cd export
 rem make -f export.mak export.exe
 rem cd ..
+
+REM =======================
+rem Build CDLINK
+
+cd cdlink
+asmcdmos.bat
+cd ..
