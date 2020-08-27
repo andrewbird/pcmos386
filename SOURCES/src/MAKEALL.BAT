@@ -39,10 +39,8 @@ cd unterm
 makeutrm.bat
 cd ..
 
-rem Build import program
-cd import
-makeimp.bat
-cd ..
+rem Build and distribute import program
+gmake -C import dist
 
 set PATH=%BORBIN%;C:\BIN;C:\PCMOS
 rem Build ULIB library

@@ -32,10 +32,10 @@ ren __*.* $$*.*
 ren _*.sys $*.sys
 cd ..
 
-cd import
-make -f import.mak import.exe
+REM =======================
+rem Build IMPORT
+gmake -C import
 if ERRORLEVEL 1 exit 1
-cd ..
 
 rem cd export
 rem make -f export.mak export.exe
