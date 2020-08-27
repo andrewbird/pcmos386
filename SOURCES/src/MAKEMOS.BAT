@@ -43,7 +43,5 @@ rem cd ..
 
 REM =======================
 rem Build CDLINK
-
-cd cdlink
-asmcdmos.bat
-cd ..
+gmake -C cdlink
+if ERRORLEVEL 1 exit 1

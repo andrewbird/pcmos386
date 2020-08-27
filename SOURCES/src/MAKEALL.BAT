@@ -68,11 +68,8 @@ copy EXPORT.EXE %DIST%
 
 cd ..
 
-rem Build CDLINK
-
-cd cdlink
-asmcdmos.bat
-cd ..
+rem Build and distribute CDLINK
+gmake -C cdlink dist
 
 path=c:\bin;c:\pcmos
 rem Begin Distribution
