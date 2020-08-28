@@ -15,7 +15,7 @@ make -f makeser.mak all
 echo Creating registration script
 
 echo Building Kernel
-make -f kernel.mak $$eval.sys
+gmake -f kernel.mak $$eval.sys
 ren $$EVAL.SYS $$MOS.SYS
 
 echo Distributing Kernel
