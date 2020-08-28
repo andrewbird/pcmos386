@@ -37,9 +37,10 @@ rem Build IMPORT
 gmake -C import
 if ERRORLEVEL 1 exit 1
 
-rem cd export
-rem make -f export.mak export.exe
-rem cd ..
+REM =======================
+rem Build EXPORT
+rem gmake -C export
+rem if ERRORLEVEL 1 exit 1
 
 REM =======================
 rem Build CDLINK
