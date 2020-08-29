@@ -14,14 +14,16 @@ gmake -C latest -f kernel.mak
 if ERRORLEVEL 1 exit 1
 
 REM =======================
-rem cd mos5src
-make -f makeutil.mak all
+rem Build UTILITIES
+gmake -C latest -f utils.mak
 if ERRORLEVEL 1 exit 1
-ren moxcptsk.com command.com
+ren latest\moxcptsk.com latest\command.com
+
+REM =======================
+rem Build TERMINALS
 rem make -f maketerm.mak all
 ren __*.* $$*.*
 ren _*.sys $*.sys
-cd ..
 
 REM =======================
 rem Build IMPORT
