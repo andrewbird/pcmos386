@@ -13,4 +13,4 @@ else
     ARGS="-K SOURCES/src/MAKEMOS.BAT -U 2"
 fi
 
-dosemu -td -ks $ARGS 'path=%D\bin;%O'
+dosemu -q -td -ks $ARGS 'path=%D\bin;%O'
